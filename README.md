@@ -1,4 +1,5 @@
 # Optimiser relay model client
+This project will run under a wide range of node versions, but it has been tested with Node v20.5.1
 ## Setup
 ```bash
     # Install dependencies
