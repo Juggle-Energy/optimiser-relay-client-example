@@ -3,3 +3,6 @@ optimiser.key
 optimiser.pub
 package-lock.json
 keys/
+nohup.out
+eslint.config.js
+
