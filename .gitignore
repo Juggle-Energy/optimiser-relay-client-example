@@ -2,3 +2,4 @@ node_modules
 optimiser.key
 optimiser.pub
 package-lock.json
+keys/
