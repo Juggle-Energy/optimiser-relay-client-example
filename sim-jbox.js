@@ -1,9 +1,5 @@
-#!/usr/bin/env node
-/*
- * Test Client for the Optimiser relay
- *
- * This specific version acts as several simulated J-Boxes, each with their own ID.
- *
+#!/usr/bin/env node 
+/* * Test Client for the Optimiser relay * * This specific version acts as several simulated J-Boxes, each with their own ID.  *
  * Usage examples
  * --------------
  * # Optimiser (sends an instruction every 20 s and logs battery_state)
@@ -75,7 +71,7 @@ ws.on('open', () => {
   ws.send(JSON.stringify({ type: 'auth', clientId: id, token }));
   console.log('✅  Auth message sent');
 
-	runSimulatedJboxes();
+	runSingleJbox();	
 
   // Start heartbeat loop
   setInterval(() => {
@@ -119,28 +115,8 @@ ws.on('close', (code, reason) => {
 
 ws.on('error', (err) => console.error('🚨  WS error', err));
 
-function startOptimiserLoops() {
-  // Fire an instruction every 20 s targeting device‑123 by default
-  setInterval(() => {
-    const target = 'device-123';
-    const actionTime = new Date(Date.now() + 60_000).toISOString();
-    const msg = {
-      type: 'instruction',
-      deviceId: target,
-      data: {
-          actions: [
-            { t: actionTime, rateKw: 3.5 }
-          ]
-      }
-    };
-    ws.send(JSON.stringify(msg));
-    console.log('⬆️  instruction sent to', target);
-  }, 20_000);
-}
 
-
-const sendJboxMessage => (async (id) => {
-	const id = `sim-jbox-${index}`;
+const sendJboxMessage = (async () => {
   const actionTime = new Date(Date.now() + 60_000).toISOString();
 	const energy_kWh = Math.random() * 400;
 	const energy_SoC = energy_kWh / 400 * 100;
@@ -150,7 +126,7 @@ const sendJboxMessage => (async (id) => {
 		data: {
 			power_kW: Math.random() * 100.0,
 			voltage_V: 230.0,
-			energy_SoC: energy_Soc,
+			energy_SoC: energy_SoC,
 			energy_kWh: energy_kWh,
 			availability: true,
 			controllability: true,
@@ -161,18 +137,11 @@ const sendJboxMessage => (async (id) => {
 	console.log(`Battery State sent by ${id}`);
 });
 
-const runSingleJbox => (async (jboxIndex) => {
-	const id = `sim-jbox-${index}`;
+const runSingleJbox = (async (jboxIndex) => {
 	setInterval(() => {
-		sendJboxMessage(id);
-	}, 5_000);
+		sendJboxMessage();
+	}, 1_000);
 });
 
 
-
-const runSimulatedJboxes => (() => {
-	const jboxes = {};
-		
-
-});
 
